@@ -8,5 +8,13 @@ services:
       - "1433:1433"
     volumes:
       - sql-server-data-volume:/var/opt/mssql
+  mitm-proxy:
+    image: mitmproxy/mitmproxy
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    command: "mitmweb --web-host 0.0.0.0"
+    volumes: mitm-certs-volume:/home/mitmproxy/.mitmproxy
 volumes:
   sql-server-data-volume:
+  mitm-certs-volume:
