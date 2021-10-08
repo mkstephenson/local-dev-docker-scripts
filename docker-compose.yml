@@ -16,6 +16,11 @@ services:
     command: "mitmweb --web-host 0.0.0.0"
     volumes:
       - mitm-certs-volume:/home/mitmproxy/.mitmproxy
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 volumes:
   sql-server-data-volume:
   mitm-certs-volume:
