@@ -1,26 +1,44 @@
+networks:
+  dev:
 services:
   sql-server-2019:
+    restart: always
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       ACCEPT_EULA: "Y"
-      SA_PASSWORD: "yourStrong(!)Password"
+      SA_PASSWORD: "y0urStr0ngPassw0rd"
     ports:
       - "1433:1433"
     volumes:
       - sql-server-data-volume:/var/opt/mssql
+  oracle-db-express:
+    restart: always
+    image:  container-registry.oracle.com/database/express:latest
+    environment:
+      ORACLE_PWD: "y0urStr0ngPassw0rd"
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    volumes:
+      - oracle-data-volume:/opt/oracle/oradata
   mitm-proxy:
+    restart: always
     image: mitmproxy/mitmproxy
     ports:
       - "8080:8080"
-      - "8081:8081"
+      - "8001:8081"
     command: "mitmweb --web-host 0.0.0.0"
     volumes:
       - mitm-certs-volume:/home/mitmproxy/.mitmproxy
-  rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - "15672:15672"
-      - "5672:5672"
+  # rabbitmq:
+  #   restart: always
+  #   image: rabbitmq:3-management
+  #   ports:
+  #     - "15672:15672"
+  #     - "5672:5672"
+  #   networks:
+  #     - dev
 volumes:
   sql-server-data-volume:
+  oracle-data-volume:
   mitm-certs-volume:
