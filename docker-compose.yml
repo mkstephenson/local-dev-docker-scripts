@@ -20,7 +20,9 @@ services:
       - "1521:1521"
       - "5500:5500"
     volumes:
-      - oracle-data-volume:/opt/oracle/oradata
+      - "oracle-data-volume:/opt/oracle/oradata"
+      - "./oracle-scripts/startup:/opt/oracle/scripts/startup"
+      - "./oracle-scripts/setup:/opt/oracle/scripts/setup"
   mitm-proxy:
     restart: always
     image: mitmproxy/mitmproxy
